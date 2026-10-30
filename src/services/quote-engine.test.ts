@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { parseGoogleFinanceRate, parseGoogleFinanceTimestamp } from '../../app/api/fx-rate/route'
 import { getDemoQuotes } from '../data/demo-quotes'
 import { getBestOverall, sortQuotes, totalCostInSendCurrency } from './quote-engine'
 
@@ -11,6 +12,13 @@ const request = {
 }
 
 describe('remittance quote comparison', () => {
+  it('reads the Google Finance headline instead of related-asset prices', () => {
+    const html = '<div class="N6SYTe"><span jsname="Pdsbrc"><span>108.8608</span></span></div><td><span jsname="Pdsbrc"><span>1,114.28</span></span></td><div class="jZZ2de">Oct 30, 5:17:00\u202fPM UTC</div>'
+
+    expect(parseGoogleFinanceRate(html)).toBeCloseTo(108.8608)
+    expect(parseGoogleFinanceTimestamp(html, new Date('2026-10-30T17:20:00Z'))).toBe('2026-10-30T17:17:00.000Z')
+  })
+
   it('includes transfer fees and exchange-rate loss in true cost', () => {
     const [wise] = getDemoQuotes(request)
 
@@ -20,6 +28,16 @@ describe('remittance quote comparison', () => {
     expect(wise.fxMarkupPercent).toBeCloseTo(0.17142857)
     expect(wise.trueCostInReceiveCurrency).toBeCloseTo(1095.6)
     expect(wise.effectiveExchangeRate).toBeCloseTo(104820 / 1008.72)
+  })
+
+  it('scales labeled demo rates from the latest market reference', () => {
+    const [wise, remitly] = getDemoQuotes(request, 110)
+
+    expect(wise.midMarketRate).toBe(110)
+    expect(wise.providerExchangeRate).toBeCloseTo(110 * (104.82 / 105))
+    expect(remitly.providerExchangeRate).toBeCloseTo(110 * (103.5 / 105))
+    expect(wise.source).toBe('demo')
+    expect(wise.quoteTimestamp).toBeNull()
   })
 
   it('does not equate the lowest fee with the lowest true cost', () => {

@@ -108,7 +108,7 @@ const popularRouteScenarios: DemoScenario[] = popularSendCountries.flatMap((from
 
 demoScenarios.push(...popularRouteScenarios)
 
-export function getDemoQuotes(request: QuoteRequest): ProviderQuote[] {
+export function getDemoQuotes(request: QuoteRequest, marketRate?: number): ProviderQuote[] {
   const scenario = demoScenarios.find((item) =>
     item.fromCountryId === request.fromCountryId &&
     item.toCountryId === request.toCountryId &&
@@ -118,6 +118,7 @@ export function getDemoQuotes(request: QuoteRequest): ProviderQuote[] {
 
   if (!scenario || request.sendAmount <= 0) return []
 
+  const midMarketRate = marketRate ?? scenario.midMarketRate
   const quotes = scenario.providers
     .filter((item) => !request.paymentMethod || item.paymentMethods.includes(request.paymentMethod))
     .filter((item) => !request.receivingMethod || item.receivingMethods.includes(request.receivingMethod))
@@ -128,8 +129,10 @@ export function getDemoQuotes(request: QuoteRequest): ProviderQuote[] {
       transferFee: item.transferFee,
       paymentMethodFee: item.paymentMethodFee,
       otherDisclosedCharges: item.otherDisclosedCharges,
-      providerExchangeRate: item.providerRate,
-      midMarketRate: scenario.midMarketRate,
+      providerExchangeRate: marketRate === undefined
+        ? item.providerRate
+        : midMarketRate * (item.providerRate / scenario.midMarketRate),
+      midMarketRate,
       estimatedDeliveryMinMinutes: item.deliveryMin,
       estimatedDeliveryMaxMinutes: item.deliveryMax,
       paymentMethods: item.paymentMethods,

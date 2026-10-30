@@ -400,6 +400,39 @@ p {
   font-size: 10px;
 }
 
+.calculator-data-status {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.market-rate {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 8px;
+  color: #66776d;
+  font-size: 11px;
+}
+
+.market-rate-label {
+  color: #74857a;
+  font-size: 9px;
+  font-weight: 750;
+}
+
+.market-rate strong {
+  color: #244b3b;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+
+.market-rate > span:last-child {
+  color: #819087;
+  font-size: 10px;
+}
+
 .quote-note svg {
   color: #91a096;
 }
@@ -1023,7 +1056,7 @@ p {
   to { opacity: 1; transform: translateY(0); }
 }
 
-@media (max-width: 1100px) {
+@media (min-width: 851px) and (max-width: 1100px) {
   .main-nav { margin-left: 44px; }
   .workspace { padding-right: 28px; padding-left: 28px; }
   .comparison-labels,
@@ -1037,118 +1070,6 @@ p {
   .provider-identity { gap: 7px; }
   .provider-identity h3 { font-size: 11px; }
   .stat-label { font-size: 6.5px; }
-}
-
-@media (max-width: 850px) {
-  .topbar { height: 62px; padding: 0 23px; }
-  .main-nav { gap: 23px; margin-left: 37px; }
-  .main-nav a { font-size: 11px; }
-  .workspace { padding: 36px 22px 48px; }
-  .transfer-fields { grid-template-columns: minmax(140px, 1fr) 30px minmax(140px, 1fr); }
-  .route-switch { grid-column: 2; grid-row: 1; margin: 24px 0 0; }
-  .amount-field { grid-column: 1 / -1; }
-  .amount-input { max-width: none; }
-  .recommendation-item { gap: 7px; padding-right: 9px; padding-left: 9px; }
-  .recommendation-icon { width: 28px; height: 28px; flex-basis: 28px; }
-  .comparison-labels { display: none; }
-  .provider-main { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 14px; padding: 15px; }
-  .provider-identity { grid-column: 1 / 2; }
-  .recipient-stat { grid-column: 2 / 4; align-items: flex-end; }
-  .provider-details { grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px 15px; }
-  .provider-tradeoffs { grid-column: 1 / -1; flex-direction: row; }
-  .quote-stat { padding-left: 1px; }
-  .stat-label { font-size: 7px; }
-  .cost-explainer { grid-template-columns: 42px minmax(0, 1fr); }
-  .formula-card { grid-column: 2; border-top: 1px solid #c8d9c9; border-left: 0; padding: 12px 0 0; }
-  .footer { padding: 0 22px; }
-}
-
-@media (max-width: 600px) {
-  .topbar { position: relative; z-index: 10; height: 58px; padding: 0 17px; }
-  .brand { font-size: 19px; }
-  .main-nav { display: none; }
-  .main-nav.main-nav-open {
-    position: absolute;
-    top: 58px;
-    right: 0;
-    left: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0;
-    margin: 0;
-    padding: 5px 17px 9px;
-    background: #163a34;
-    box-shadow: 0 9px 15px rgb(16 43 35 / 18%);
-  }
-  .main-nav.main-nav-open a { height: auto; padding: 11px 0; }
-  .main-nav.main-nav-open a.nav-active::after { right: auto; width: 35px; }
-  .menu-button { display: inline-flex; margin-left: auto; padding: 5px; cursor: pointer; }
-  .header-note { margin-left: 13px; font-size: 9px; }
-  .header-note svg { width: 14px; }
-  .workspace { padding: 28px 16px 38px; background-size: 15px 15px; }
-  .intro-row { align-items: flex-start; }
-  .intro-row h1 { max-width: 300px; font-size: 36px; }
-  .intro-copy { max-width: 290px; font-size: 11px; }
-  .desktop-break { display: none; }
-  .route-summary { display: none; }
-  .calculator { margin-top: 22px; padding: 17px 15px 14px; }
-  .calculator-heading h2 { font-size: 15px; }
-  .transfer-fields { grid-template-columns: minmax(0, 1fr) 30px minmax(0, 1fr); gap: 8px; margin-top: 16px; }
-  .route-field > label,
-  .amount-field > label { font-size: 9px; }
-  .country-control { gap: 6px; padding: 0 6px; }
-  .country-control select { font-size: 10px; }
-  .country-code { width: 21px; height: 21px; flex-basis: 21px; font-size: 7px; }
-  .route-switch { width: 27px; height: 27px; }
-  .currency-control { padding: 0 8px; }
-  .amount-field { margin-top: 3px; }
-  .calculator-bottom { align-items: flex-start; }
-  .quote-note { max-width: 135px; align-items: flex-start; font-size: 9px; line-height: 1.45; }
-  .quote-note svg { width: 14px; flex: 0 0 auto; }
-  .compare-button { gap: 6px; padding: 0 10px; font-size: 9px; }
-  .recommendations { margin-top: 26px; }
-  .recommendation-heading { align-items: flex-start; gap: 8px; }
-  .recommendation-heading h2 { font-size: 15px; }
-  .based-on { max-width: 130px; justify-content: flex-end; font-size: 8px; text-align: right; }
-  .recommendation-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .recommendation-item { min-height: 60px; padding: 9px; border-bottom: 1px solid #e8ede7; }
-  .recommendation-item:nth-child(2) { border-right: 0; }
-  .recommendation-item:nth-child(n + 3) { border-bottom: 0; }
-  .recommendation-copy span { font-size: 7px; }
-  .recommendation-copy strong { font-size: 10px; }
-  .recommendation-arrow { display: none; }
-  .comparison { margin-top: 30px; }
-  .comparison-heading h2 { font-size: 17px; }
-  .sort-control { flex-direction: column; align-items: flex-end; gap: 3px; font-size: 8px; }
-  .sort-control select { min-height: 29px; max-width: 130px; font-size: 9px; }
-  .provider-list { gap: 9px; }
-  .provider-main { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 13px; padding: 13px 12px; }
-  .provider-identity { grid-column: 1; }
-  .provider-mark { width: 33px; height: 33px; flex-basis: 33px; }
-  .provider-identity h3 { font-size: 11px; }
-  .provider-badge { font-size: 6.5px; }
-  .recipient-stat { grid-column: 2; align-items: flex-end; }
-  .recipient-stat strong { font-size: 15px; }
-  .quote-stat strong { font-size: 10px; }
-  .stat-label { font-size: 6.5px; }
-  .provider-details { gap: 11px 8px; padding: 11px 12px; }
-  .method-group { font-size: 8px; }
-  .detail-label { font-size: 6.5px; }
-  .provider-tradeoffs { grid-column: 1 / -1; flex-direction: column; font-size: 7px; }
-  .ranking-note { align-items: flex-start; font-size: 8px; }
-  .cost-explainer { grid-template-columns: 34px minmax(0, 1fr); gap: 10px; margin-top: 27px; padding: 14px 12px; }
-  .cost-icon-large { width: 33px; height: 33px; }
-  .cost-icon-large svg { width: 17px; }
-  .cost-explainer h2 { font-size: 16px; line-height: 1.3; }
-  .cost-explainer p { font-size: 9px; }
-  .formula-card { grid-column: 2; min-width: 0; }
-  .data-disclaimer { margin-top: 13px; }
-  .data-disclaimer p { font-size: 8px; }
-  .footer { min-height: 58px; gap: 9px; padding: 0 15px; }
-  .footer-brand { font-size: 14px; }
-  .footer > span:nth-child(2) { max-width: 140px; font-size: 8px; }
-  .footer-right { gap: 4px; font-size: 8px; text-align: right; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1416,68 +1337,110 @@ p {
 .editorial-page details summary { padding: 11px 0; color: #3d5c4c; cursor: pointer; font-size: 10px; font-weight: 700; }
 .editorial-page details p { padding-bottom: 10px; }
 
-@media (max-width: 1100px) {
+@media (min-width: 851px) and (max-width: 1100px) {
   .transfer-fields { grid-template-columns: minmax(130px, 1fr) 30px minmax(130px, 1fr) minmax(120px, 0.9fr) minmax(105px, 0.75fr); gap: 8px; }
   .provider-main { grid-template-columns: minmax(105px, 1.05fr) minmax(125px, 1.1fr) minmax(72px, 0.75fr) minmax(132px, 1.1fr) minmax(108px, 0.92fr) minmax(105px, 0.9fr); }
   .provider-details { grid-template-columns: 1fr 1fr 1.7fr; }
   .provider-link { grid-column: 3; justify-self: end; }
 }
 
-@media (max-width: 850px) {
-  .transfer-fields { grid-template-columns: minmax(140px, 1fr) 30px minmax(140px, 1fr); align-items: end; }
-  .route-switch { grid-column: 2; grid-row: 1; margin-top: 16px; }
-  .amount-field { grid-column: 1 / 3; }
-  .currency-field { grid-column: 3; }
-  .provider-main { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .provider-identity { grid-column: 1 / 2; }
-  .recipient-stat { grid-column: 2 / 4; align-items: flex-end; }
-  .provider-details { grid-template-columns: 1fr 1fr; }
-  .provider-tradeoffs { grid-column: 1 / -1; }
-  .provider-link { grid-column: 2; grid-row: 3; }
-  .steps-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .step-item:nth-child(3) { border-right: 0; }
-  .step-item:nth-child(n + 4) { border-top: 1px solid #e4e9e1; }
-}
+/* Readability pass: the original interface used very small display text. */
+body { font-size: 17px; }
+.main-nav a { font-size: 14px; }
+.header-note { font-size: 13px; }
+.eyebrow,
+.section-kicker { font-size: 11px; }
+.intro-copy { font-size: 14px; }
+.route-summary { font-size: 13px; }
+.route-codes { font-size: 12px; }
+.calculator-heading h2,
+.recommendation-heading h2,
+.comparison-heading h2 { font-size: 19px; }
+.step-count,
+.quote-note,
+.based-on,
+.sort-control,
+.filters-row label,
+.demo-freshness { font-size: 12px; }
+.route-field > label,
+.amount-field > label,
+.currency-field > label { font-size: 12px; }
+.field-control select,
+.sort-control select,
+.amount-input select,
+.currency-field select { font-size: 13px; }
+.amount-hint,
+.currency-field small { font-size: 11px; }
+.compare-button { font-size: 13px; }
+.recommendation-copy span { font-size: 10px; }
+.recommendation-copy strong { font-size: 13px; }
+.comparison-labels { font-size: 10px; }
+.provider-identity h3 { font-size: 14px; }
+.provider-badge { font-size: 9px; }
+.stat-label,
+.detail-label { font-size: 9px; }
+.quote-stat strong { font-size: 13px; }
+.method-group,
+.tradeoff-column ul,
+.best-rationale,
+.comparison-table { font-size: 11px; }
+.tradeoff-footnote,
+.comparison-table small { font-size: 9px; }
+.empty-state h3 { font-size: 16px; }
+.empty-state p,
+.empty-state a,
+.cost-note p,
+.step-item p,
+.priority-links a,
+.priority-links button,
+.route-links a,
+.provider-directory a,
+.history-panel p,
+.alert-panel p,
+.history-placeholder,
+.alert-panel form,
+.faq-section details p { font-size: 12px; }
+.faq-section summary { font-size: 13px; }
+.editorial-page > h1 { font-size: 41px; }
+.editorial-lead { font-size: 15px; }
+.editorial-page section h2 { font-size: 17px; }
+.editorial-page section p,
+.editorial-list,
+.editorial-page .page-callout,
+.provider-facts dd,
+.editorial-page details summary { font-size: 13px; }
+.page-breadcrumbs,
+.provider-facts dt { font-size: 11px; }
 
-@media (max-width: 600px) {
-  .editorial-workspace { min-height: calc(100vh - 116px); padding: 21px 14px 38px; }
-  .editorial-page { padding: 22px 17px 27px; }
-  .editorial-page > h1 { font-size: 29px; }
-  .editorial-lead { font-size: 11px; }
-  .editorial-page section { padding: 14px 0; }
-  .provider-facts { grid-template-columns: 1fr; }
-  .trust-flag { display: none; }
-  .transfer-fields { grid-template-columns: minmax(0, 1fr) 29px minmax(0, 1fr); gap: 8px; }
-  .country-picker-trigger { gap: 5px; padding: 0 6px; }
-  .picker-value { flex-direction: column; align-items: flex-start; gap: 1px; }
-  .picker-value strong { width: 100%; font-size: 9px; }
-  .picker-value small { display: none; }
-  .picker-flag { font-size: 15px; }
-  .route-switch { width: 26px; height: 26px; }
-  .amount-field { grid-column: 1 / 3; }
-  .currency-field { grid-column: 3; }
-  .save-route { font-size: 8px; }
-  .filters-row { flex-wrap: wrap; align-items: center; gap: 7px; }
-  .filters-row label { flex: 1 1 46%; justify-content: space-between; }
-  .filters-row select { max-width: 130px; }
-  .demo-freshness { width: 100%; margin: 2px 0 0; }
-  .comparison-controls { gap: 4px; }
-  .sort-control { gap: 3px; }
-  .sort-control select { max-width: 124px; }
-  .provider-main { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 13px; }
-  .provider-identity { grid-column: 1; }
-  .recipient-stat { grid-column: 2; }
-  .provider-details { grid-template-columns: 1fr 1fr; }
-  .provider-tradeoffs { grid-column: 1 / -1; flex-direction: column; }
-  .provider-tradeoffs { grid-template-columns: 1fr; }
-  .provider-link { grid-column: 2; grid-row: auto; }
-  .steps-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .step-item:nth-child(3) { border-right: 1px solid #e4e9e1; }
-  .step-item:nth-child(2n) { border-right: 0; }
-  .step-item:nth-child(n + 3) { border-top: 1px solid #e4e9e1; }
-  .route-links,
-  .provider-directory { grid-template-columns: 1fr; }
-  .history-panel,
-  .alert-panel { grid-template-columns: 1fr; gap: 13px; padding: 14px; }
-  .formula-card { min-width: 0; }
-}
+/* Larger type scale for improved readability. */
+body { font-size: 20px; }
+.main-nav a { font-size: 16px; }
+.header-note { font-size: 15px; }
+.eyebrow, .section-kicker { font-size: 13px; }
+.intro-copy { font-size: 18px; }
+.route-summary { font-size: 16px; }
+.route-codes { font-size: 14px; }
+.calculator-heading h2, .recommendation-heading h2, .comparison-heading h2 { font-size: 23px; }
+.step-count, .quote-note, .based-on, .sort-control, .filters-row label, .demo-freshness { font-size: 15px; }
+.route-field > label, .amount-field > label, .currency-field > label { font-size: 14px; }
+.field-control select, .sort-control select, .amount-input select, .currency-field select { font-size: 15px; }
+.compare-button { font-size: 15px; }
+.recommendation-copy span { font-size: 11px; }
+.recommendation-copy strong { font-size: 17px; }
+.comparison-labels { font-size: 11px; }
+.provider-identity h3 { font-size: 17px; }
+.provider-badge, .offer-tag { font-size: 10px; }
+.stat-label, .detail-label { font-size: 10px; }
+.quote-stat strong { font-size: 17px; }
+.stat-foot, .markup-text, .true-cost { font-size: 11px; }
+.method-group, .tradeoff-column ul, .best-rationale, .comparison-table { font-size: 13px; }
+.tradeoff-footnote, .comparison-table small { font-size: 11px; }
+.cost-explainer p, .formula-card small, .data-disclaimer p { font-size: 12px; }
+.formula-card strong { font-size: 14px; }
+.empty-state h3 { font-size: 20px; }
+.empty-state p, .empty-state a, .cost-note p, .step-item p, .priority-links a, .priority-links button, .route-links a, .provider-directory a, .history-panel p, .alert-panel p, .history-placeholder, .alert-panel form, .faq-section details p { font-size: 16px; }
+.faq-section summary { font-size: 16px; }
+.editorial-page > h1 { font-size: 46px; }
+.editorial-lead { font-size: 18px; }
+.editorial-page section h2 { font-size: 21px; }
+.editorial-page section p, .editorial-list, .editorial-page .page-callout, .provider-facts dd, .editorial-page details summary { font-size: 16px; }

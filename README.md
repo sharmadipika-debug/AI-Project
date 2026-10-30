@@ -21,7 +21,7 @@ npm start
 
 ## Quote integrity
 
-Popular routes from Canada, the United States, the United Kingdom, and Australia have explicitly labeled demo scenarios. Panda Remit and bank wire are included in the sample provider/method mix. These are test data, not provider quotes, live rates, or availability claims. Other corridors return an empty state. `POST /api/quotes` validates requests and returns `503` until a live provider adapter is configured. Do not relabel scenario data as live.
+Popular routes from Canada, the United States, the United Kingdom, and Australia have explicitly labeled demo scenarios. Panda Remit and bank wire are included in the sample provider/method mix. Fees, delivery, and provider factors remain illustrative, not provider quotes or availability claims. When Google Finance returns a market reference, demo exchange rates are scaled from it on each refresh; they are still not provider rates. Other corridors return an empty state. `POST /api/quotes` validates requests and returns `503` until a live provider adapter is configured. Do not relabel scenario data as live.
 
 `src/services/quote-engine.ts` calculates:
 

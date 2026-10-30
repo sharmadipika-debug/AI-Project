@@ -19,12 +19,12 @@
 }
 
 html {
-  min-width: 320px;
+  min-width: 850px;
   scroll-behavior: smooth;
 }
 
 body {
-  min-width: 320px;
+  min-width: 850px;
   min-height: 100vh;
   margin: 0;
 }

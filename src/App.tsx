@@ -84,6 +84,10 @@ function App() {
   const [alertSaved, setAlertSaved] = useState(false)
   const [liveQuotes, setLiveQuotes] = useState<ProviderQuote[] | null>(null)
   const [liveStatus, setLiveStatus] = useState<'idle' | 'loading' | 'available' | 'unavailable'>('idle')
+  const [marketRate, setMarketRate] = useState<{ rate: number | null; timestamp: string | null; source: string | null; reason: string | null; sendCurrency: string; receiveCurrency: string } | null>(null)
+  const marketRateStatus = marketRate === null || marketRate.sendCurrency !== sendCurrency || marketRate.receiveCurrency !== receiveCurrency
+    ? 'loading'
+    : marketRate.rate === null ? 'unavailable' : 'available'
 
   const routeKey = `${fromCountry.id}-${toCountry.id}`
   const saved = savedRoutes.includes(routeKey)
@@ -97,7 +101,8 @@ function App() {
     paymentMethod: paymentFilter === 'all' ? undefined : paymentFilter,
     receivingMethod: receivingFilter === 'all' ? undefined : receivingFilter,
   }
-  const allQuotes = getDemoQuotes(request)
+  const demoMarketRate = marketRateStatus === 'available' ? marketRate?.rate ?? undefined : undefined
+  const allQuotes = getDemoQuotes(request, demoMarketRate)
   useEffect(() => {
     const controller = new AbortController()
     setLiveStatus('loading')
@@ -112,6 +117,26 @@ function App() {
       .catch(() => { if (!controller.signal.aborted) { setLiveQuotes([]); setLiveStatus('unavailable') } })
     return () => controller.abort()
   }, [fromCountry.id, toCountry.id, amount, sendCurrency, receiveCurrency, paymentFilter, receivingFilter])
+
+  useEffect(() => {
+    const controller = new AbortController()
+    fetch(`/api/fx-rate?from=${sendCurrency}&to=${receiveCurrency}`, { signal: controller.signal, cache: 'no-store' })
+      .then(async (response) => response.json().catch(() => null))
+      .then((result) => {
+        if (controller.signal.aborted) return
+        if (result?.status === 'available' && typeof result.rate === 'number' && typeof result.timestamp === 'string' && typeof result.source === 'string') {
+          setMarketRate({ rate: result.rate, timestamp: result.timestamp, source: result.source, reason: null, sendCurrency, receiveCurrency })
+        } else {
+          setMarketRate({ rate: null, timestamp: null, source: null, reason: result?.reason ?? `Google Finance returned no quote for ${sendCurrency}/${receiveCurrency}.`, sendCurrency, receiveCurrency })
+        }
+      })
+      .catch(() => {
+        if (!controller.signal.aborted) {
+          setMarketRate({ rate: null, timestamp: null, source: null, reason: 'Could not reach Google Finance. Check the connection and try again.', sendCurrency, receiveCurrency })
+        }
+      })
+    return () => controller.abort()
+  }, [sendCurrency, receiveCurrency])
 
   const displayedQuotes = liveStatus === 'available' ? (liveQuotes ?? []) : allQuotes
   const sortedQuotes = sortQuotes(displayedQuotes, sortMode)
@@ -211,7 +236,7 @@ function App() {
               <div className="amount-field"><label htmlFor="send-amount">YOU SEND</label><div className="amount-input"><input id="send-amount" type="number" min="1" step="0.01" value={sendAmount} onChange={(event) => savePreferredAmount(event.target.value)} aria-label="Amount to send" /><select aria-label="Sending currency" value={sendCurrency} onChange={(event) => setSendCurrency(event.target.value)}>{currencies.map((currency) => <option key={currency}>{currency}</option>)}</select></div></div>
               <div className="currency-field"><label htmlFor="receive-currency">THEY RECEIVE</label><select id="receive-currency" value={receiveCurrency} onChange={(event) => setReceiveCurrency(event.target.value)}>{currencies.map((currency) => <option key={currency}>{currency}</option>)}</select><small>Default: {toCountry.currencyCodes[0]}</small></div>
             </div>
-            <div className="calculator-bottom"><div className="quote-note"><Info size={15} /><span>{liveStatus === 'loading' ? 'Checking live provider quotes…' : liveStatus === 'available' ? 'Live provider quote · confirm before sending.' : 'Live provider quotes unavailable; showing demo scenarios.'}</span></div><button className="compare-button" type="submit">Compare transfer options <ArrowRight size={17} /></button></div>
+            <div className="calculator-bottom"><div className="calculator-data-status"><div className="quote-note"><Info size={15} /><span>{liveStatus === 'loading' ? 'Checking live provider quotes…' : liveStatus === 'available' ? 'Live provider quote · confirm before sending.' : 'Live provider quotes unavailable; showing demo scenarios.'}</span></div><div className="market-rate" aria-live="polite"><span className="market-rate-label">MARKET REFERENCE</span>{marketRateStatus === 'available' && marketRate?.rate !== null && marketRate?.timestamp && marketRate.source ? <><strong>1 {sendCurrency} = {marketRate.rate.toLocaleString('en-US', { maximumFractionDigits: 4 })} {receiveCurrency}</strong><span>{marketRate.source} · updated {new Date(marketRate.timestamp).toLocaleString()}</span></> : <span>{marketRateStatus === 'loading' ? 'Loading Google Finance rate…' : marketRate?.reason ?? `No Google Finance quote is available for ${sendCurrency}/${receiveCurrency}.`}</span>}</div></div><button className="compare-button" type="submit">Compare transfer options <ArrowRight size={17} /></button></div>
           </form>
 
           <section className="recommendations" aria-label="Transfer comparison priorities">
